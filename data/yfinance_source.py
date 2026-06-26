@@ -48,7 +48,6 @@ class YFinanceSource(DataSource):
                 period=f'{bars * 3}d',
                 progress=False,
                 auto_adjust=True,
-                multi_level_column=False,
             )
         except Exception as exc:
             raise DataSourceError(f'{ticker}: yfinance download failed — {exc}') from exc
@@ -56,8 +55,13 @@ class YFinanceSource(DataSource):
         if raw is None or raw.empty:
             raise DataSourceError(f'{ticker}: yfinance returned empty data')
 
-        # Normalize column names to lowercase
+        # Flatten multi-level columns (some yfinance versions wrap single-ticker
+        # downloads in a (field, ticker) MultiIndex)
         raw = raw.copy()
+        if isinstance(raw.columns, pd.MultiIndex):
+            raw.columns = raw.columns.get_level_values(0)
+
+        # Normalize column names to lowercase
         raw.columns = [c.lower() for c in raw.columns]
         needed = ['open', 'high', 'low', 'close', 'volume']
         missing = [c for c in needed if c not in raw.columns]
