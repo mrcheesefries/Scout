@@ -1,0 +1,21 @@
+# Scout configuration
+# account_value: DO NOT commit a real value here — set via ACCOUNT_VALUE GitHub Secret
+# or the ACCOUNT_VALUE environment variable. The placeholder below means sizing
+# estimates will show 0 shares until the secret is configured.
+account_value: null
+
+risk_per_trade: 0.01
+data_source: yfinance
+
+watchlist:
+  semis:    [NVDA, AMD, AVGO, MU, ASML, TSM]
+  gaming:   [EA, TTWO, RBLX]
+  ai_tools: [MSFT, GOOGL, PLTR]
+  china:    [BABA, PDD, JD]
+  etfs:     [SPY, QQQ, SMH]
+  crypto:   [BTC-USD, ETH-USD, SOL-USD]
+
+thresholds:
+  min_avg_volume: 1000000        # flag if 20-day avg vol below this
+  extended_atr_mult: 1.0         # flag if close is >N ATR past breakout level
+  earnings_window_days: 10       # flag if next earnings < N trading days out

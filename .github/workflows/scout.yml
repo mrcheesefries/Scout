@@ -1,0 +1,73 @@
+name: Scout Daily Run
+
+on:
+  # 02:00 UTC Tue–Sat covers Mon–Fri US sessions
+  # US close = 16:00 ET = 20:00–21:00 UTC; running at 02:00 UTC (+5h buffer)
+  # Note: a post-close run lands on the next UTC calendar day — Tue–Sat covers Mon–Fri.
+  schedule:
+    - cron: '0 2 * * 2-6'
+
+  # Manual trigger from the Actions tab for on-demand runs
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Scout
+        id: scan
+        env:
+          # Set this GitHub Secret: Settings → Secrets → ACCOUNT_VALUE
+          # Leave unset to get 0-share sizing estimates (all other logic works fine)
+          ACCOUNT_VALUE: ${{ secrets.ACCOUNT_VALUE }}
+        run: python main.py
+
+      - name: Commit results to repo
+        # Only runs if the scan succeeded — broken run must NOT commit a stale page
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/ history/
+          # Commit only if there are staged changes
+          git diff --staged --quiet || git commit -m "chore: scout run $(date -u '+%Y-%m-%dT%H:%MZ')"
+          git push
+
+      - name: Upload Pages artifact
+        if: success()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output/
+
+  deploy:
+    needs: scan
+    runs-on: ubuntu-latest
+    if: needs.scan.result == 'success'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
