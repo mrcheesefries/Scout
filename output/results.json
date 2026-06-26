@@ -1,0 +1,95 @@
+{
+  "run_timestamp": "2026-06-26 10:31 UTC",
+  "scan_date": "2026-06-26",
+  "market_state": "UNKNOWN",
+  "setup_count": 0,
+  "setups": [],
+  "watchlist": [],
+  "data_errors": [
+    {
+      "ticker": "NVDA",
+      "error": "NVDA: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "AMD",
+      "error": "AMD: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "AVGO",
+      "error": "AVGO: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "MU",
+      "error": "MU: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "ASML",
+      "error": "ASML: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "TSM",
+      "error": "TSM: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "EA",
+      "error": "EA: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "TTWO",
+      "error": "TTWO: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "RBLX",
+      "error": "RBLX: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "MSFT",
+      "error": "MSFT: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "GOOGL",
+      "error": "GOOGL: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "PLTR",
+      "error": "PLTR: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "BABA",
+      "error": "BABA: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "PDD",
+      "error": "PDD: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "JD",
+      "error": "JD: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "SPY",
+      "error": "SPY: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "QQQ",
+      "error": "QQQ: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "SMH",
+      "error": "SMH: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "BTC-USD",
+      "error": "BTC-USD: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "ETH-USD",
+      "error": "ETH-USD: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    },
+    {
+      "ticker": "SOL-USD",
+      "error": "SOL-USD: yfinance download failed \u2014 download() got an unexpected keyword argument 'multi_level_column'"
+    }
+  ],
+  "account_value_estimate": null
+}
