@@ -50,6 +50,34 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: scout run $(date -u '+%Y-%m-%dT%H:%MZ')"
           git push
 
+      - name: Notify setups via ntfy
+        # Fires only when there are actionable setups and NTFY_TOPIC secret is set
+        if: success() && secrets.NTFY_TOPIC != ''
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          python - <<'EOF'
+          import json, os, urllib.request
+          data = json.load(open('output/results.json'))
+          setups = data.get('setups', [])
+          if not setups:
+              print("No setups — skipping notification")
+              exit(0)
+          topic = os.environ['NTFY_TOPIC']
+          lines = []
+          for s in setups:
+              lines.append(f"{s['verdict']} {s['ticker']}  entry≈{s['entry_ref']:.2f}  stop≈{s['stop_ref']:.2f}")
+          body = "\n".join(lines)
+          title = f"⚔ Scout: {len(setups)} setup{'s' if len(setups)>1 else ''} — {data['scan_date']}"
+          req = urllib.request.Request(
+              f"https://ntfy.sh/{topic}",
+              data=body.encode(),
+              headers={"Title": title, "Priority": "high", "Tags": "chart_with_upwards_trend"},
+          )
+          urllib.request.urlopen(req)
+          print(f"Notified: {title}")
+          EOF
+
       - name: Upload Pages artifact
         if: success()
         uses: actions/upload-pages-artifact@v3
