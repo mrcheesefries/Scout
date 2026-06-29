@@ -51,19 +51,22 @@ jobs:
           git push
 
       - name: Notify setups via ntfy
-        # Fires only when there are actionable setups and NTFY_TOPIC secret is set
-        if: success() && secrets.NTFY_TOPIC != ''
+        # Fires only when scan succeeded; skips silently if NTFY_TOPIC secret not set
+        if: success()
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           python - <<'EOF'
           import json, os, urllib.request
+          topic = os.environ.get('NTFY_TOPIC', '').strip()
+          if not topic:
+              print("NTFY_TOPIC not set — skipping notification")
+              exit(0)
           data = json.load(open('output/results.json'))
           setups = data.get('setups', [])
           if not setups:
               print("No setups — skipping notification")
               exit(0)
-          topic = os.environ['NTFY_TOPIC']
           lines = []
           for s in setups:
               lines.append(f"{s['verdict']} {s['ticker']}  entry≈{s['entry_ref']:.2f}  stop≈{s['stop_ref']:.2f}")
